@@ -38,8 +38,12 @@ public class PostService {
         return post.getId();
     }
 
-    public PostReturnForm findByPostId(Long postId) {
-        Post post = postRepository.findById(postId);
+    public Post findByPostId(Long postId) {
+        return postRepository.findById(postId);
+    }
+
+    public PostReturnForm createPostReturnForm(Long postId) {
+        Post post = findByPostId(postId);
 
         List<UrlResource> postImageUrlResources = getPostImages(post);
 

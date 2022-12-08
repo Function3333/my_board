@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myBoard.entity.Board;
 import project.myBoard.entity.Post;
+import project.myBoard.forms.BoardReturnForm;
 import project.myBoard.forms.PostReturnForm;
 import project.myBoard.repository.BoardRepository;
 
@@ -30,5 +31,19 @@ public class BoardService {
         }
 
         return postReturnForms;
+    }
+
+    public BoardReturnForm findBoardById(Long board_id) {
+        List<PostReturnForm> postReturnForms = new ArrayList<>();
+
+        Board board = boardRepository.findById(board_id);
+
+        List<Post> posts = board.getPosts();
+        for (Post post : posts) {
+            PostReturnForm postReturnForm = postService.createPostReturnForm(post.getId());
+            postReturnForms.add(postReturnForm);
+        }
+
+        return new BoardReturnForm(board.getCategory(), postReturnForms);
     }
 }
