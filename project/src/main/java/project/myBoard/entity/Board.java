@@ -21,4 +21,9 @@ public class Board {
 
     @OneToMany(mappedBy = "board")
     private List<Post> posts = new ArrayList<>();
+
+    public Board createBoard(BoardCategory boardCategory) {
+        this.category = boardCategory;
+        return this;
+    }
 }

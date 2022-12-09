@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import project.myBoard.dto.AccountDto;
+import project.myBoard.uitls.timeStamp.CurrentTimeStamp;
 
 import java.sql.Timestamp;
 
@@ -26,7 +27,7 @@ public class Account {
         this.email = accountDto.getEmail();
         this.username = accountDto.getUsername();
         this.password = accountDto.getPassword();
-        this.regDate = accountDto.getRegDate();
+        this.regDate = CurrentTimeStamp.currentTimeToTimeStamp();
 
         return this;
     }
@@ -35,6 +36,6 @@ public class Account {
         this.email = accountDto.getEmail();
         this.username = accountDto.getUsername();
         this.password = accountDto.getPassword();
-        this.regDate = accountDto.getRegDate();
+        this.regDate = CurrentTimeStamp.currentTimeToTimeStamp();
     }
 }

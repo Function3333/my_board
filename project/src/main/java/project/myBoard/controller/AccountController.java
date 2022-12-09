@@ -19,6 +19,10 @@ import project.myBoard.service.AccountService;
 public class AccountController {
     private final AccountService accountService;
 
+    @GetMapping("/user")
+    public String registerForm(@ModelAttribute AccountDto accountDto) {
+        return "createMemberForm";
+    }
 
     @PostMapping("/user")
     public String register(@ModelAttribute AccountDto accountDto) {
