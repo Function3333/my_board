@@ -32,11 +32,12 @@ public class AccountController {
     public String register(@ModelAttribute AccountDto accountDto, BindingResult br) {
         accountDtoValidator.validate(accountDto, br);
 
-        log.info("register error = {}", br);
+        log.info("errors = {}", br);
         if(br.hasErrors()) {
             return "createAccountForm";
         }
 
+        accountService.register(accountDto);
         return "redirect:/user";
     }
 
