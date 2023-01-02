@@ -1,16 +1,18 @@
 package project.myBoard.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import project.myBoard.dto.AccountDto;
 import project.myBoard.entity.Account;
 import project.myBoard.forms.AccountReturnForm;
 import project.myBoard.repository.AccountRepository;
 
+import java.util.List;
+
 @Service
-@Transactional(readOnly = true)
+@org.springframework.transaction.annotation.Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AccountService {
     private final AccountRepository accountRepository;
@@ -37,8 +39,20 @@ public class AccountService {
     }
 
     @Transactional
+    public Account findByEmail(String email) {
+        List<Account> byEmail = accountRepository.findByEmail(email);
+
+        if(byEmail.isEmpty()) {
+            return null;
+        }
+
+        return byEmail.get(0);
+    }
+
+    @Transactional
     public void editAccount(Long account_id, AccountDto dto) {
         Account byId = accountRepository.findById(account_id);
         byId.changeAccount(dto);
     }
 }
+

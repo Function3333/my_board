@@ -30,4 +30,10 @@ public class AccountRepository {
         Account byId = findById(account_id);
         em.remove(byId);
     }
+
+    public List<Account> findByEmail(String email) {
+        return em.createQuery("select a from Account a where a.email=:email")
+                .setParameter("email", email)
+                .getResultList();
+    }
 }

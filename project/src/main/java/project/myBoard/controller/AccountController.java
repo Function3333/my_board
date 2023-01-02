@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,22 +14,30 @@ import project.myBoard.dto.AccountDto;
 import project.myBoard.entity.Account;
 import project.myBoard.forms.AccountReturnForm;
 import project.myBoard.service.AccountService;
+import project.myBoard.validator.AccountDtoValidator;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
 public class AccountController {
     private final AccountService accountService;
+    private final AccountDtoValidator accountDtoValidator;
 
     @GetMapping("/user")
     public String registerForm(@ModelAttribute AccountDto accountDto) {
-        return "createMemberForm";
+        return "createAccountForm";
     }
 
     @PostMapping("/user")
-    public String register(@ModelAttribute AccountDto accountDto) {
-        accountService.register(accountDto);
-        return "template";
+    public String register(@ModelAttribute AccountDto accountDto, BindingResult br) {
+        accountDtoValidator.validate(accountDto, br);
+
+        log.info("register error = {}", br);
+        if(br.hasErrors()) {
+            return "createAccountForm";
+        }
+
+        return "redirect:/user";
     }
 
     @GetMapping("/user/{user_id}")
